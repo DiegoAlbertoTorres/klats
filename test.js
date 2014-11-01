@@ -14,11 +14,13 @@ function click_element(element) {
 };
 
 document.onscroll = function() {
+	search_name('kevin jiang');
+};
+
+function search_name(name) {
 	var searchbox = document.getElementsByClassName('inputtext inputsearch textInput');
 	click_element(searchbox[0]);
-	// button_press(document,'h');
-	searchbox[0].value = 'kevin jiang';
-	// button_press_eric(13);
+	searchbox[0].value = name;
 	var keyEvent = document.createEvent('KeyboardEvent');
 	keyEvent.initKeyboardEvent('keydown', true, false, null, 0, false, 0, false, 13, 0);
 	searchbox[0].dispatchEvent(keyEvent);
