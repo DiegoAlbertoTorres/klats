@@ -1,38 +1,69 @@
-var dispatchMouseEvent = function(target, var_args) {
-  var e = document.createEvent("MouseEvents");
-  // If you need clientX, clientY, etc., you can call
-  // initMouseEvent instead of initEvent
-  e.initEvent.apply(e, Array.prototype.slice.call(arguments, 1));
-  target.dispatchEvent(e);
-};
-
-function click_element(element) {
-	dispatchMouseEvent(element, 'mouseover', true, true);
-	dispatchMouseEvent(element, 'mousedown', true, true);
-	dispatchMouseEvent(element, 'click', true, true);
-	dispatchMouseEvent(element, 'mouseup', true, true);
+String.prototype.hashCode = function() {
+  var hash = 0, i, chr, len;
+  if (this.length == 0) return hash;
+  for (i = 0, len = this.length; i < len; i++) {
+    chr   = this.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
 };
 
 window.onload = function() {
-	//~search_name('kevin jiang');
-	setInterval(scrape, 1000);
+	//~chrome.storage.local.users = {};
+	if (chrome.storage.local.users === undefined)
+		chrome.storage.local.users = {};
+		
+	//~chrome.storage.local.users=	{};
+	//~console.log("Clear!");
+		
+	setInterval(scrape, 5000);
 };
 
 function scrape(){
 	var d = new Date();
-	var dataPoint = {};
-	var users = [];
+	
+	var users = chrome.storage.local.users;
+	
 	$("._42fz").each(function(){
 		var user = {};
+		var dataPoint = {};
+		
 		// User name
 		user.name = $(this).find("div._55lr").html();
-		// Status
-		user.status = $(this).find("div._5t35").html();
-		users.push(user);
+		
+		user.dataPoints = [];
+		
+		// Hash the person's name
+		var hash = Math.abs(user.name.hashCode()).toString(16);
+		
+		if (users[hash] === undefined){
+			// Push first data point to user
+			dataPoint.status = $(this).find("div._5t35").html();
+			dataPoint.timestamp = d.getTime();
+			user.dataPoints.push(dataPoint);
+			
+			// Push new user to user database
+			users[hash] = user;
+		}
+		// Already in database
+		else{
+			// Get user data
+			user = users[hash];
+			
+			// Push another data point
+			dataPoint.status = $(this).find("div._5t35").html();
+			dataPoint.timestamp = d.getTime();
+			user.dataPoints.push(dataPoint);
+			
+			users[hash] = user;
+		}
 	});
-	dataPoint.users = users;
-	dataPoint.timestamp = d.getTime();
-	console.log(dataPoint);
+	
+	console.log(users);
+	
+	// Update users
+	chrome.storage.local.users = users;
 }
 
 function search_name(name) {
