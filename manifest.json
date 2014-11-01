@@ -5,13 +5,10 @@
   "description": "This extension demonstrates a browser action with kittens.",
   "version": "1.0",
 
-  // "background": {
-  //   "scripts": ["popup.js"]
-  // },
   "content_scripts": [
   {
     "matches": ["*://www.facebook.com/*"],
-    "js" : ["test.js"],
+    "js" : ["test.js", "jquery-2.1.1.min.js"],
     "run_at" : "document_idle"
   }
   ],

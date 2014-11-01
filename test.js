@@ -14,8 +14,26 @@ function click_element(element) {
 };
 
 window.onload = function() {
-	search_name('kevin jiang');
+	//~search_name('kevin jiang');
+	setInterval(scrape, 1000);
 };
+
+function scrape(){
+	var d = new Date();
+	var dataPoint = {};
+	var users = [];
+	$("._42fz").each(function(){
+		var user = {};
+		// User name
+		user.name = $(this).find("div._55lr").html();
+		// Status
+		user.status = $(this).find("div._5t35").html();
+		users.push(user);
+	});
+	dataPoint.users = users;
+	dataPoint.timestamp = d.getTime();
+	console.log(dataPoint);
+}
 
 function search_name(name) {
 	var searchbox = document.getElementsByClassName('inputtext inputsearch textInput');
