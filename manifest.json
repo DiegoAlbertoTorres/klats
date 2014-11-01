@@ -8,7 +8,7 @@
   "content_scripts": [
   {
     "matches": ["*://www.facebook.com/*"],
-    "js" : ["test.js", "jquery-2.1.1.min.js"],
+    "js" : ["static/js/test.js", "static/js/jquery-2.1.1.min.js"],
     "run_at" : "document_idle"
   }
   ],
@@ -18,7 +18,7 @@
     "storage"
   ],
   "browser_action": {
-    "default_icon": "icon.png",
-    "default_popup": "popup.html"
+    "default_icon": "static/images/icon.png",
+    "default_popup": "templates/popup.html"
   }
 }
