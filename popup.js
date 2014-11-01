@@ -1,84 +1,42 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-/**
- * Global variable containing the query we'd like to pass to Flickr. In this
- * case, kittens!
- *
- * @type {string}
- */
-var QUERY = 'kittens';
-
-var kittenGenerator = {
-  /**
-   * Flickr URL that will give us lots and lots of whatever we're looking for.
-   *
-   * See http://www.flickr.com/services/api/flickr.photos.search.html for
-   * details about the construction of this URL.
-   *
-   * @type {string}
-   * @private
-   */
-  searchOnFlickr_: 'https://secure.flickr.com/services/rest/?' +
-      'method=flickr.photos.search&' +
-      'api_key=90485e931f687a9b9c2a66bf58a3861a&' +
-      'text=' + encodeURIComponent(QUERY) + '&' +
-      'safe_search=1&' +
-      'content_type=1&' +
-      'sort=interestingness-desc&' +
-      'per_page=20',
-
-  /**
-   * Sends an XHR GET request to grab photos of lots and lots of kittens. The
-   * XHR's 'onload' event is hooks up to the 'showPhotos_' method.
-   *
-   * @public
-   */
-  requestKittens: function() {
-    var req = new XMLHttpRequest();
-    req.open("GET", this.searchOnFlickr_, true);
-    req.onload = this.showPhotos_.bind(this);
-    req.send(null);
-  },
-
-  /**
-   * Handle the 'onload' event of our kitten XHR request, generated in
-   * 'requestKittens', by generating 'img' elements, and stuffing them into
-   * the document for display.
-   *
-   * @param {ProgressEvent} e The XHR ProgressEvent.
-   * @private
-   */
-  showPhotos_: function (e) {
-    var kittens = e.target.responseXML.querySelectorAll('photo');
-    for (var i = 0; i < kittens.length; i++) {
-      var img = document.createElement('img');
-      img.src = this.constructKittenURL_(kittens[i]);
-      img.setAttribute('alt', kittens[i].getAttribute('title'));
-      document.body.appendChild(img);
-    }
-  },
-
-  /**
-   * Given a photo, construct a URL using the method outlined at
-   * http://www.flickr.com/services/api/misc.urlKittenl
-   *
-   * @param {DOMElement} A kitten.
-   * @return {string} The kitten's URL.
-   * @private
-   */
-  constructKittenURL_: function (photo) {
-    return "http://farm" + photo.getAttribute("farm") +
-        ".static.flickr.com/" + photo.getAttribute("server") +
-        "/" + photo.getAttribute("id") +
-        "_" + photo.getAttribute("secret") +
-        "_s.jpg";
-  }
+// Load Facebook SDK
+window.fbAsyncInit = function() {
+	FB.init({
+		appId      : 'your-app-id', // You must replace this
+		xfbml      : true,
+		version    : 'v2.1'
+	});
 };
 
-// Run our kitten generation script as soon as the document's DOM is ready.
+(function(d, s, id){
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) {return;}
+	js = d.createElement(s); js.id = id;
+	js.src = "//connect.facebook.net/en_US/sdk.js";
+	fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+// End of Facebook SDK load
+
+// Request facebook chat list
 document.addEventListener('DOMContentLoaded', function () {
-  kittenGenerator.requestKittens();
+	FB.getLoginStatus(function(response) {
+		if (response.status === 'connected') {
+			// the user is logged in and has authenticated your
+			// app, and response.authResponse supplies
+			// the user's ID, a valid access token, a signed
+			// request, and the time the access token 
+			// and signed request each expire
+			var uid = response.authResponse.userID;
+			var accessToken = response.authResponse.accessToken;
+			console.log("logged in!");
+		}
+		else if (response.status === 'not_authorized') {
+			// the user is logged in to Facebook, 
+			// but has not authenticated your app
+			console.log("not logged in!");
+		} 
+		else {
+			// the user isn't logged in to Facebook.
+		}
+	});
 });
 
