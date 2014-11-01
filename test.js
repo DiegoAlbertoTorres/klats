@@ -13,7 +13,7 @@ function click_element(element) {
 	dispatchMouseEvent(element, 'mouseup', true, true);
 };
 
-document.onscroll = function() {
+window.onload = function() {
 	search_name('kevin jiang');
 };
 
