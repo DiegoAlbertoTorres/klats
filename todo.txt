@@ -1,0 +1,7 @@
+TODO
+1. document.onscroll - change it to a page load, initialized only once on complete load
+2. string - add funcionality to popup.html to handle grabbing the user string
+3. pull chat status from fb
+4. data storage - store data into chrome (fuck with permissions, among other things)
+5. data visualization - popup.html will contain this too I guess
+
