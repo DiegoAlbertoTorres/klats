@@ -1,13 +1,16 @@
 // Load Facebook SDK
+alert('Hi');
 window.fbAsyncInit = function() {
 	FB.init({
 		appId      : '1523140154592681', // You must replace this
 		xfbml      : true,
 		version    : 'v2.1'
 	});
+	alert('Hi');
 };
 
-(function(d, s, id){
+(function (d, s, id){
+	alert('hi2');
 	var js, fjs = d.getElementsByTagName(s)[0];
 	if (d.getElementById(id)) {return;}
 	js = d.createElement(s); js.id = id;
@@ -17,7 +20,8 @@ window.fbAsyncInit = function() {
 // End of Facebook SDK load
 
 // Request facebook chat list
-document.addEventListener('DOMContentLoaded', function () {
+(function () {
+	alert('asdf');
 	FB.getLoginStatus(function(response) {
 		if (response.status === 'connected') {
 			// the user is logged in and has authenticated your
@@ -35,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			console.log("not logged in!");
 		} 
 		else {
+			console.log('not logged');
 			// the user isn't logged in to Facebook.
 		}
 	});

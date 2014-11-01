@@ -5,14 +5,19 @@
   "description": "This extension demonstrates a browser action with kittens.",
   "version": "1.0",
 
-  "background": {
-    "scripts": ["popup.js"],
-    "persistent": false
-  },
+  // "background": {
+  //   "scripts": ["popup.js"]
+  // },
+  "content_scripts": [
+  {
+    "matches": ["*://www.facebook.com/*"],
+    "js" : ["test.js"],
+    "run_at" : "document_idle"
+  }
+  ],
 
   "permissions": [
-    "https://secure.flickr.com/",
-    "https://connect.facebook.net/"
+    "https://secure.flickr.com/"
   ],
   "browser_action": {
     "default_icon": "icon.png",
