@@ -32,46 +32,48 @@ function scrape(){
 		// User name
 		user.name = $(this).find("div._55lr").html();
 		
-		user.dataPoints = [];
-		
 		// Hash the person's name
 		var hash = Math.abs(user.name.hashCode()).toString(16);
 		
+		// Data is an array of arrays. Each element has form: [Hour, day, value]
 		if (users[hash] === undefined){
+			
+			user.dataPoints = [];
+			
 			// Push first data point to user
-			dataPoint.status = $(this).find("div._5t35").html();
-			dataPoint.timestamp = d.getTime();
-			user.dataPoints.push(dataPoint);
+			var status = $(this).find("div._5t35").html();
+			var value;
+			if (status == "Web"){
+				value=1;
+			}
+			else if (status == "Mobile"){
+				value = 0.5;
+			}
+
+			
+			user.dataPoints.push([d.getDay(), d.getHours(), value]);
 			
 			// Push new user to user database
 			users[hash] = user;
 		}
 		// Already in database
 		else{
-			// Get user data
-			user = users[hash];
+			var status = $(this).find("div._5t35").html();
+			var value;
+			if (status == "Web"){
+				value = 1;
+			}
+			else if (status == "Mobile"){
+				value = 0.5;
+			}
 			
-			// Push another data point
-			dataPoint.status = $(this).find("div._5t35").html();
-			dataPoint.timestamp = d.getTime();
-			user.dataPoints.push(dataPoint);
-			
-			users[hash] = user;
+			users[hash].dataPoints.push([d.getDay(), d.getHours(), value]);
 		}
 	});
 	
+	console.log("Sending data.");
 	console.log(users);
-	
-	// Update users
-	chrome.storage.local.users = users;
+	chrome.runtime.sendMessage({method: "setLocalStorage", data: users}, function(response) {
+		console.log("Response received.");
+	});
 }
-
-function search_name(name) {
-	var searchbox = document.getElementsByClassName('inputtext inputsearch textInput');
-	click_element(searchbox[0]);
-	searchbox[0].value = name;
-	var keyEvent = document.createEvent('KeyboardEvent');
-	keyEvent.initKeyboardEvent('keydown', true, false, null, 0, false, 0, false, 13, 0);
-	searchbox[0].dispatchEvent(keyEvent);
-};
-
