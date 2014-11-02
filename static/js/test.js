@@ -17,7 +17,7 @@ window.onload = function() {
 	//~chrome.storage.local.users=	{};
 	//~console.log("Clear!");
 		
-	setInterval(scrape, 5000);
+	setInterval(scrape, 1000);
 };
 
 function scrape(){
