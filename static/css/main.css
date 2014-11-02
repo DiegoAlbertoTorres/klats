@@ -40,3 +40,14 @@ img {
      display: inline-block;    
      padding: 5px;   
 }
+
+#yo-button {
+  margin-top: 20px;
+  font-size: 1em;
+  color: white;
+  border: 0;
+}
+
+#yo-button:hover {
+  background-color: #5abeec;
+}
