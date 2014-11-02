@@ -50,8 +50,7 @@ function scrape(){
 				value = 0.5;
 			}
 
-			
-			user.dataPoints.push([d.getDay(), d.getHours(), value]);
+			user.dataPoints.push([d.getHours(), d.getDay(), value]);
 			
 			// Push new user to user database
 			users[hash] = user;
@@ -67,7 +66,7 @@ function scrape(){
 				value = 0.5;
 			}
 			
-			users[hash].dataPoints.push([d.getDay(), d.getHours(), value]);
+			users[hash].dataPoints.push([d.getHours(), d.getDay(), value]);
 		}
 	});
 	
