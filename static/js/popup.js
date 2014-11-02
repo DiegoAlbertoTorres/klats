@@ -8,7 +8,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 			source: users
 		});
 		
-		console.log("Data received and updated:", chrome.storage.local.users);
 	}
 });
 
@@ -44,7 +43,7 @@ function drawGraph(friend){
         },
 
         yAxis: {
-            categories: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+            categories: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
             title: null
         },
 
@@ -71,24 +70,29 @@ function drawGraph(friend){
         },
 
         series: [{
-            name: 'Sales per employee',
             borderWidth: 1,
             // Data is an array of arrays. Each element has form: [Hour, day, value]
             data: [],
-            dataLabels: {
-                enabled: true,
-                color: 'black',
-                style: {
-                    textShadow: 'none'
-                }
-            }
         }]
 
     };
-	
-	options.series[0].data = friend.dataPoints;
+    options.series[0].data = makeDataSeries(friend.dataPoints);
 	$('#container').highcharts(options);
 } 
+
+function makeDataSeries(dataPoints){
+	
+	var dataSeries = [];
+	
+	var i, j;
+	for (i = 0; i < 7; ++i){
+		for (j = 0; j < 24; ++j){
+			dataSeries.push([j, i, dataPoints[i][j]]);
+		}
+	}
+	
+	return dataSeries;
+}
 
 function unhash_users(){
   var names = [];
@@ -100,7 +104,6 @@ function unhash_users(){
 }
 
 function grab_user(){
-	console.log("you are here!");
 	var name = $("#tags").val();
 	var hash = Math.abs(name.hashCode()).toString(16);
 	var friend = chrome.storage.local.users[hash];
