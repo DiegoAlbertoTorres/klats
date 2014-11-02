@@ -11,20 +11,14 @@
      <script src="../static/js/main.js"></script>
      <script src="../static/js/highcharts.js"></script>
      <script src="../static/js/popup.js"></script>
-	   <script src="../static/js/map.js"></script>
-	   <script src="../static/js/data.js"></script>
+     <script src="../static/js/map.js"></script>
+     <script src="../static/js/data.js"></script>
 
   </head>
   <body>
-    <h1 align="center">Triends</h1>
-<!-- <div class="btn-group" data-toggle="buttons">
-  <label class="btn btn-primary active">
-    <input type="radio" name="options" id="option1" autocomplete="off" checked> Radio 1 (preselected)
-  </label>
-  <label class="btn btn-primary">
-    <input type="radio" name="options" id="option2" autocomplete="off"> Radio 2
-  </label>
-</div> -->
+    <div id="title">
+      <h1 align="center">Triends</h1>
+    </div>
 
     <div id="friendsearch" class="ui-widget" align="center">
       <input id="tags" placeholder="Search for people">
@@ -38,18 +32,16 @@
     </div>
     
     <div id="usernameinput" class="ui-widget" align="center">
-        <input id="yo_user" placeholder="Yo username">
+        <input id="yo_user">
     </div>
-    <div id ="yotestblock" align="center">
-      <button type="button" id="yo-button" class="btn btn-default">Yo Test</button>
-    </div>
-    <br>
-  </div>
-  
-  <div id = "wrapper">
+
     <button id="addFriend" class="btn btn-info" type="button"> <span class="glyphicon glyphicon-plus"></span> </button>
+
     <button id="removeFriend" class="btn btn-info" type="button"> <span class="glyphicon glyphicon-minus"></span> </button>
   </div>
+  <div id ="yotestblock" align="center">
+      <button type="button" id="yo-button" class="btn btn-default">Yo Test</button>
+    </div>
   
   <div id="container"></div>
 
