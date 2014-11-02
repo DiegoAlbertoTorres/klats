@@ -4,6 +4,11 @@
   "name": "Klats",
   "description": "This extension demonstrates a browser action with kittens.",
   "version": "1.0",
+  
+  "background": {
+    "scripts": ["static/js/jquery-2.1.1.min.js", "static/js/jquery-ui.js", "static/js/highcharts.js",
+    "/static/js/map.js", "/static/js/data.js", "static/js/popup.js"]
+  },
 
   "content_scripts": [
   {
