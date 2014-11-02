@@ -2,8 +2,10 @@
 <html>
   <head>
     <title>Klats</title>
+     <link rel="stylesheet" href="../static/css/bootstrap.css">
      <link rel="stylesheet" href="../static/css/jquery-ui.css">
      <link rel="stylesheet" href="../static/css/main.css">
+     <link rel="stylesheet" href="../static/css/bootstrap-switch.min.css">
      <script src="../static/js/jquery-2.1.1.min.js"></script>
      <script src="../static/js/jquery-ui.js"></script>
      <script src="../static/js/main.js"></script>
@@ -12,12 +14,23 @@
      
 	<script src="../static/js/map.js"></script>
 	<script src="../static/js/data.js"></script>
+	
+	<script src="../static/js/bootstrap-switch.min.js"></script>
+	
   </head>
   <body>
     <h1> Klats </h1>
     <div class="ui-widget">
       <label for="tags">Tags: </label>
       <input id="tags">
+    </div><br>
+    <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-id-switch-state bootstrap-switch-on bootstrap-switch-focused bootstrap-switch-animate">
+      <div class="bootstrap-switch-container" style="">
+        <span class="bootstrap-switch-handle-on bootstrap-switch-primary">ON</span>
+        <label class="bootstrap-switch-label">&nbsp;</label>
+        <span class="bootstrap-switch-handle-off bootstrap-switch-default">OFF</span>
+        <input id="switch-state" type="checkbox" checked="">
+      </div>
     </div>
     <div id="container"></div>
     
