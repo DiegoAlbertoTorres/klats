@@ -2,96 +2,17 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.method == "setLocalStorage"){
 		chrome.storage.local.users = request.data;
 		sendResponse({});
-		console.log("Data received:", chrome.storage.local.users);
 		
-		//~var friend = chrome.storage.local.users["5dd3d67b"];
+		var users = unhash_users();
+		users.push("Randomaldo Falso");
+		//~console.log(generate_dataset());
+		$("#tags").autocomplete({
+			source: users
+		});
 		
-		// Update data
-		//~console.log(friend.name);
-		//~console.log(friend.dataPoints);
-		//~
-		//~console.log(friend);
-		//~options.series[0].data = friend.dataPoints;
-		
-		//~$('#container').highcharts(options);
 	}
 });
 
-//~$(function () {
- //~options = {
-        //~chart: {
-            //~type: 'heatmap',
-            //~marginTop: 40,
-            //~marginBottom: 40
-        //~},
-//~
-//~
-        //~title: {
-            //~text: 'Sales per employee per weekday'
-        //~},
-//~
-        //~xAxis: {
-			//~title: {
-                //~text: "Hour"
-            //~},
-            //~labels: {
-                //~format: '{value}:00'
-            //~},
-            //~minPadding: 0,
-            //~maxPadding: 0,
-            //~startOnTick: false,
-            //~endOnTick: false,
-            //~tickPositions: [0, 6, 12, 18, 24],
-            //~tickWidth: 1,
-            //~min: 0,
-            //~max: 23
-        //~},
-//~
-        //~yAxis: {
-            //~categories: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-            //~title: null
-        //~},
-//~
-        //~colorAxis: {
-            //~min: 0,
-            //~minColor: '#FFFFFF',
-            //~maxColor: Highcharts.getOptions().colors[0]
-        //~},
-//~
-        //~legend: {
-            //~align: 'right',
-            //~layout: 'vertical',
-            //~margin: 0,
-            //~verticalAlign: 'top',
-            //~y: 25,
-            //~symbolHeight: 320
-        //~},
-//~
-        //~tooltip: {
-            //~formatter: function () {
-                //~return '<b>' + this.series.xAxis.categories[this.point.x] + '</b> sold <br><b>' +
-                    //~this.point.value + '</b> items on <br><b>' + this.series.yAxis.categories[this.point.y] + '</b>';
-            //~}
-        //~},
-//~
-        //~series: [{
-            //~name: 'Sales per employee',
-            //~borderWidth: 1,
-            //~// Data is an array of arrays. Each element has form: [Hour, day, value]
-            //~data: [],
-            //~dataLabels: {
-                //~enabled: true,
-                //~color: 'black',
-                //~style: {
-                    //~textShadow: 'none'
-                //~}
-            //~}
-        //~}]
-//~
-    //~};
-	//~
-	//~$('#container').highcharts(options);
-//~});
 
 function drawGraph(friend){
 	 options = {
@@ -124,14 +45,14 @@ function drawGraph(friend){
         },
 
         yAxis: {
-            categories: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+            categories: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
             title: null
         },
 
         colorAxis: {
             min: 0,
             minColor: '#FFFFFF',
-            maxColor: Highcharts.getOptions().colors[0]
+            maxColor: '#FF2D00'
         },
 
         legend: {
@@ -142,49 +63,40 @@ function drawGraph(friend){
             y: 25,
             symbolHeight: 320
         },
-
-        tooltip: {
-            formatter: function () {
-                return '<b>' + this.series.xAxis.categories[this.point.x] + '</b> sold <br><b>' +
-                    this.point.value + '</b> items on <br><b>' + this.series.yAxis.categories[this.point.y] + '</b>';
-            }
-        },
+		tooltip: {
+			enabled: false
+		},
+        //~tooltip: {
+            //~formatter: function () {
+                //~return '<b>' + this.series.xAxis.categories[this.point.x] + '</b> sold <br><b>' +
+                    //~this.point.value + '</b> items on <br><b>' + this.series.yAxis.categories[this.point.y] + '</b>';
+            //~}
+        //~},
 
         series: [{
-            name: 'Sales per employee',
+			//~color: "#ff0000",
             borderWidth: 1,
             // Data is an array of arrays. Each element has form: [Hour, day, value]
             data: [],
-            dataLabels: {
-                enabled: true,
-                color: 'black',
-                style: {
-                    textShadow: 'none'
-                }
-            }
         }]
 
     };
-	
-	options.series[0].data = friend.dataPoints;
+    options.series[0].data = makeDataSeries(friend.dataPoints);
 	$('#container').highcharts(options);
+} 
+
+function makeDataSeries(dataPoints){
+	var dataSeries = [];
+	
+	var i, j;
+	for (i = 0; i < 7; ++i){
+		for (j = 0; j < 24; ++j){
+			dataSeries.push([j, i, dataPoints[i][j]]);
+		}
+	}
+	
+	return dataSeries;
 }
-
-
-$(setTimeout(function() {
-    var users = unhash_users();
-    $("#tags").autocomplete({
-      source: users
-    });
-    
-    $("#tags").keypress(function(e) {
-    if(e.which == 13) {
-        grab_user();
-    }
-});
-
-}, 10000));
-  
 
 function unhash_users(){
   var names = [];
@@ -196,17 +108,52 @@ function unhash_users(){
 }
 
 function grab_user(){
-	console.log("you are here!");
 	var name = $("#tags").val();
-	//~var name = document.getElementById("tags").select();
-	var hash = Math.abs(name.hashCode()).toString(16);
-	var friend = chrome.storage.local.users[hash];
-	console.log(friend);
+	
+	if (name == "Randomaldo Falso"){
+		var friend = generate_dataset();
+		console.log(friend);
+	}
+	else{
+		var hash = Math.abs(name.hashCode()).toString(16);
+		var friend = chrome.storage.local.users[hash];
+	}
+	
 	drawGraph(friend);
 	return;
 }
 
-
+//generates random dataset
+function generate_dataset(name){
+    var day = []; //size 7
+    var name = "Randomaldo Falso";
+    
+    for (j = 0; j < 7; j++) {
+        var hour = []; //size 24
+        for (q = 0; q < 24; q ++) {
+            hour.push(Math.floor((Math.random() * 10)));
+        }
+        day.push(hour);
+    }
+    
+    for (j = 17; j < 24; j++){
+		day[5][j] += Math.floor((Math.random() * 50));
+		day[6][j] += Math.floor((Math.random() * 50));
+	}
+	
+	for (i = 1; i < 5; i++){
+		for (j = 9; j < 15; j++){
+			day[i][j] += Math.floor((Math.random() * 20));
+		}
+	}
+    
+    var friend = {
+        dataPoints: day,
+        name: name
+    };
+    
+    return friend;
+}
 
 String.prototype.hashCode = function() {
   var hash = 0, i, chr, len;
@@ -219,7 +166,18 @@ String.prototype.hashCode = function() {
   return hash;
 };
 
+<<<<<<< HEAD
 $('#dimension-switch').bootstrapSwitch('setSizeClass', '');
+=======
+$(document).ready(function(){
+	$("#tags").keypress(function(e) {
+		if(e.which == 13) {
+			grab_user();
+		}
+	});
+});
+
+>>>>>>> 3da5c3eb6ac4ed3925df3573ac60a313e39388a4
 
 
 

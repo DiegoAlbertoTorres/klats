@@ -38,19 +38,23 @@ function scrape(){
 		// Data is an array of arrays. Each element has form: [Hour, day, value]
 		if (users[hash] === undefined){
 			
-			user.dataPoints = [];
+			var dataPoints = new Array(7);
+			for (var i = 0; i < 7; i++) {
+				dataPoints[i] = Array.apply(null, new Array(24)).map(Number.prototype.valueOf,0);
+			}
+			user.dataPoints = dataPoints;
 			
 			// Push first data point to user
 			var status = $(this).find("div._5t35").html();
 			var value;
 			if (status == "Web"){
-				value=1;
+				value = 2;
 			}
 			else if (status == "Mobile"){
-				value = 0.5;
+				value = 1;
 			}
-
-			user.dataPoints.push([d.getHours(), d.getDay(), value]);
+			
+			user.dataPoints[d.getDay()][d.getHours()] = value;
 			
 			// Push new user to user database
 			users[hash] = user;
@@ -60,13 +64,13 @@ function scrape(){
 			var status = $(this).find("div._5t35").html();
 			var value;
 			if (status == "Web"){
-				value = 1;
+				value = 2;
 			}
 			else if (status == "Mobile"){
-				value = 0.5;
+				value = 1;
 			}
 			
-			users[hash].dataPoints.push([d.getHours(), d.getDay(), value]);
+			users[hash].dataPoints[d.getDay()][d.getHours()] += value;
 		}
 	});
 	
