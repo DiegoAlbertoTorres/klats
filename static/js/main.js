@@ -175,3 +175,35 @@ String.prototype.hashCode = function() {
   }
   return hash;
 };
+
+//generates random dataset
+function generate_dataset(){
+    var day = []; //size 7
+    var name = "Randomaldo Falso";
+    
+    for (j = 0; j < 7; j++) {
+        var hour = []; //size 24
+        for (q = 0; q < 24; q ++) {
+            hour.push(Math.floor((Math.random() * 10)));
+        }
+        day.push(hour);
+    }
+    
+    for (j = 17; j < 24; j++){
+		day[5][j] += Math.floor((Math.random() * 50));
+		day[6][j] += Math.floor((Math.random() * 50));
+	}
+	
+	for (i = 1; i < 5; i++){
+		for (j = 9; j < 15; j++){
+			day[i][j] += Math.floor((Math.random() * 20));
+		}
+	}
+    
+    var friend = {
+        dataPoints: day,
+        name: name
+    };
+    
+    return friend;
+}

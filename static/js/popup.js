@@ -1,3 +1,35 @@
+//generates random dataset
+function generate_dataset(){
+    var day = []; //size 7
+    var name = "Randomaldo Falso";
+    
+    for (j = 0; j < 7; j++) {
+        var hour = []; //size 24
+        for (q = 0; q < 24; q ++) {
+            hour.push(Math.floor((Math.random() * 10)));
+        }
+        day.push(hour);
+    }
+    
+    for (j = 17; j < 24; j++){
+		day[5][j] += Math.floor((Math.random() * 50));
+		day[6][j] += Math.floor((Math.random() * 50));
+	}
+	
+	for (i = 1; i < 5; i++){
+		for (j = 9; j < 15; j++){
+			day[i][j] += Math.floor((Math.random() * 20));
+		}
+	}
+    
+    var friend = {
+        dataPoints: day,
+        name: name
+    };
+    
+    return friend;
+}
+
 if (chrome.storage.local.firstRun === undefined){
 	console.log("first run!");
 	chrome.storage.local.users = {};
@@ -9,6 +41,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 	// Receive list of online users and their weight
     if (request.method == "setLocalStorage"){
 		
+		request.data[Math.abs(String("Randomaldo Falso").hashCode()).toString(16)] = generate_dataset();
+		
 		// Store message
 		chrome.storage.local.users = request.data;
 		
@@ -18,6 +52,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		// Add to the search dropdown
 		var users = unhash_users();
 		users.push("Randomaldo Falso");
+		
+		console.log(users);
 		
 		// See if anyone tracked got online
 		checkTracked(request.online);
@@ -112,40 +148,6 @@ function release_trackedFriend(name){
 	//~console.log(hash, friend);
 	console.log(chrome.storage.local.trackedFriends);
 	return;
-}
-
-
-
-//generates random dataset
-function generate_dataset(name){
-    var day = []; //size 7
-    var name = "Randomaldo Falso";
-    
-    for (j = 0; j < 7; j++) {
-        var hour = []; //size 24
-        for (q = 0; q < 24; q ++) {
-            hour.push(Math.floor((Math.random() * 10)));
-        }
-        day.push(hour);
-    }
-    
-    for (j = 17; j < 24; j++){
-		day[5][j] += Math.floor((Math.random() * 50));
-		day[6][j] += Math.floor((Math.random() * 50));
-	}
-	
-	for (i = 1; i < 5; i++){
-		for (j = 9; j < 15; j++){
-			day[i][j] += Math.floor((Math.random() * 20));
-		}
-	}
-    
-    var friend = {
-        dataPoints: day,
-        name: name
-    };
-    
-    return friend;
 }
 
 String.prototype.hashCode = function() {
