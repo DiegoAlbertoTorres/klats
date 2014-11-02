@@ -17,7 +17,8 @@ $(document).ready(function(){
 	});
 
 	$("#yo-button").click(function() {
-		send_yo("KLATS");
+		var name = $("#yo_user").val();
+		send_yo(name);
 	});
 });
 
@@ -242,7 +243,7 @@ function send_yo(user) {
 
 	http.onreadystatechange = function() {//Call a function when the state changes.
 	    if(http.readyState == 4 && http.status == 200) {
-	        alert(http.responseText);
+	        console.log(http.responseText);
 	    }
 	};
 
