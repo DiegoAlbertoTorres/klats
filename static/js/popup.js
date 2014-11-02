@@ -166,9 +166,6 @@ String.prototype.hashCode = function() {
   return hash;
 };
 
-<<<<<<< HEAD
-$('#dimension-switch').bootstrapSwitch('setSizeClass', '');
-=======
 $(document).ready(function(){
 	$("#tags").keypress(function(e) {
 		if(e.which == 13) {
@@ -177,7 +174,6 @@ $(document).ready(function(){
 	});
 });
 
->>>>>>> 3da5c3eb6ac4ed3925df3573ac60a313e39388a4
 
 
 
