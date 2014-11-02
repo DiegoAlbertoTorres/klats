@@ -48,10 +48,10 @@ function scrape(){
 			var status = $(this).find("div._5t35").html();
 			var value;
 			if (status == "Web"){
-				value=1;
+				value = 2;
 			}
 			else if (status == "Mobile"){
-				value = 0.5;
+				value = 1;
 			}
 			
 			user.dataPoints[d.getDay()][d.getHours()] = value;
@@ -64,10 +64,10 @@ function scrape(){
 			var status = $(this).find("div._5t35").html();
 			var value;
 			if (status == "Web"){
-				value = 1;
+				value = 2;
 			}
 			else if (status == "Mobile"){
-				value = 0.5;
+				value = 1;
 			}
 			
 			users[hash].dataPoints[d.getDay()][d.getHours()] += value;

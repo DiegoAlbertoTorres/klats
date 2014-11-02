@@ -4,6 +4,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		sendResponse({});
 		
 		var users = unhash_users();
+		users.push("Randomaldo Falso");
+		//~console.log(generate_dataset());
 		$("#tags").autocomplete({
 			source: users
 		});
@@ -50,7 +52,7 @@ function drawGraph(friend){
         colorAxis: {
             min: 0,
             minColor: '#FFFFFF',
-            maxColor: Highcharts.getOptions().colors[0]
+            maxColor: '#FF2D00'
         },
 
         legend: {
@@ -61,15 +63,18 @@ function drawGraph(friend){
             y: 25,
             symbolHeight: 320
         },
-
-        tooltip: {
-            formatter: function () {
-                return '<b>' + this.series.xAxis.categories[this.point.x] + '</b> sold <br><b>' +
-                    this.point.value + '</b> items on <br><b>' + this.series.yAxis.categories[this.point.y] + '</b>';
-            }
-        },
+		tooltip: {
+			enabled: false
+		},
+        //~tooltip: {
+            //~formatter: function () {
+                //~return '<b>' + this.series.xAxis.categories[this.point.x] + '</b> sold <br><b>' +
+                    //~this.point.value + '</b> items on <br><b>' + this.series.yAxis.categories[this.point.y] + '</b>';
+            //~}
+        //~},
 
         series: [{
+			//~color: "#ff0000",
             borderWidth: 1,
             // Data is an array of arrays. Each element has form: [Hour, day, value]
             data: [],
@@ -81,7 +86,6 @@ function drawGraph(friend){
 } 
 
 function makeDataSeries(dataPoints){
-	
 	var dataSeries = [];
 	
 	var i, j;
@@ -105,11 +109,50 @@ function unhash_users(){
 
 function grab_user(){
 	var name = $("#tags").val();
-	var hash = Math.abs(name.hashCode()).toString(16);
-	var friend = chrome.storage.local.users[hash];
+	
+	if (name == "Randomaldo Falso"){
+		var friend = generate_dataset();
+		console.log(friend);
+	}
+	else{
+		var hash = Math.abs(name.hashCode()).toString(16);
+		var friend = chrome.storage.local.users[hash];
+	}
 	
 	drawGraph(friend);
 	return;
+}
+
+//generates random dataset
+function generate_dataset(name){
+    var day = []; //size 7
+    var name = "Randomaldo Falso";
+    
+    for (j = 0; j < 7; j++) {
+        var hour = []; //size 24
+        for (q = 0; q < 24; q ++) {
+            hour.push(Math.floor((Math.random() * 10)));
+        }
+        day.push(hour);
+    }
+    
+    for (j = 17; j < 24; j++){
+		day[5][j] += Math.floor((Math.random() * 50));
+		day[6][j] += Math.floor((Math.random() * 50));
+	}
+	
+	for (i = 1; i < 5; i++){
+		for (j = 9; j < 15; j++){
+			day[i][j] += Math.floor((Math.random() * 20));
+		}
+	}
+    
+    var friend = {
+        dataPoints: day,
+        name: name
+    };
+    
+    return friend;
 }
 
 String.prototype.hashCode = function() {
