@@ -21,6 +21,8 @@ window.onload = function() {
 function scrape(){
 	var d = new Date();
 	
+	var onlineUsers = {};
+	
 	$("._42fz").each(function(){
 		var user = {};
 		var dataPoint = {};
@@ -49,6 +51,10 @@ function scrape(){
 				value = 1;
 			}
 			
+			// Add to online users
+			if (value > 0)
+				onlineUsers[hash] = user.name;
+			
 			user.dataPoints[d.getDay()][d.getHours()] = value;
 			
 			// Push new user to user database
@@ -66,13 +72,15 @@ function scrape(){
 				value = 1;
 			}
 			
+			// Add to online users
+			if (value > 0)
+				onlineUsers[hash] = user.name;
+			
 			users[hash].dataPoints[d.getDay()][d.getHours()] += value;
 		}
 	});
 	
-	console.log("Sending data.");
-	console.log(users);
-	chrome.runtime.sendMessage({method: "setLocalStorage", data: users}, function(response) {
+	chrome.runtime.sendMessage({method: "setLocalStorage", data: users, online: onlineUsers}, function(response) {
 		console.log("Response received.");
 	});
 }

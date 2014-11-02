@@ -40,7 +40,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		});
 		
 		// See if anyone tracked got online
-		checkTracked(request.data);
+		checkTracked(request.online);
 	}
 	if (request.method == "getLocalStorage"){
 		// Reply
@@ -54,8 +54,22 @@ function checkTracked(onlineFriends){
 	
 	// For each tracked friend
 	for (i in trackedFriends){
-		if (onlineFriends[i] !== undefined)
-			console.log("he is online!");
+		// If tracked friend is online
+		if (onlineFriends[i] !== undefined){
+			// And he was offline
+			if (trackedFriends[i].online == false){
+				trackedFriends[i].online = true;
+				console.log("He just went online!!!!");
+			}
+		}
+		// If tracked friend is offline
+		else{
+			// And he was online
+			if (trackedFriends[i].online == true){
+				trackedFriends[i].online = false;
+				console.log("He just went offline!!!!");
+			}
+		}
 	}
 }
 
