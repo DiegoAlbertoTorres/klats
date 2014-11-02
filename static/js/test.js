@@ -66,6 +66,8 @@ function scrape(){
 	chrome.storage.local.users = users;
 }
 
+function 
+
 function search_name(name) {
 	var searchbox = document.getElementsByClassName('inputtext inputsearch textInput');
 	click_element(searchbox[0]);

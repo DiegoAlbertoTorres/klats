@@ -1,6 +1,5 @@
 $(function () {
- $('#container').highcharts({
-
+ options = {
         data: {
             csv: document.getElementById('csv').innerHTML
         },
@@ -62,5 +61,9 @@ $(function () {
             }
         }]
 
-	});
+	};
+	
+	console.log(chrome.storage.local.users);
+	
+	$('#container').highcharts(options);
 });
