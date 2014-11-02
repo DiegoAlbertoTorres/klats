@@ -1,17 +1,23 @@
 body {
-  background: #7AFF5A;
+  background: #ADD8E6;
   font-family: 'Indie Flower', cursive;
-	min-width: 600px;
-	min-height: 500px;
-	overflow-x: hidden;
+
+  min-width: 600px;
+  min-height: 500px;
+  overflow-x: hidden;
 }
 
 img {
-	margin: 5px;
-	border: 2px solid black;
-	vertical-align: middle;
-	width: 75px;
-	height: 75px;
+  margin: 5px;
+  border: 2px solid black;
+  vertical-align: middle;
+  width: 75px;
+  height: 75px;
+}
+
+h1{
+  color: white;
+  font-size:80px;
 }
 
 .ui-autocomplete {
@@ -24,8 +30,12 @@ img {
   height: 200px;
 }
 
+#title{
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+
 #friendsearch > input{
-	width: 295px;
+  width: 370px;
 }
 
 #wrapper {
@@ -39,16 +49,4 @@ img {
      /*background: #ccc;*/
      display: inline-block;    
      padding: 5px;   
-}
-
-#yo-button {
-  margin-top: 20px;
-  font-size: 1em;
-  color: #5abeec;
-  border: 0;
-}
-
-#yo-button:hover {
-  background-color: #5abeec;
-  color: white;
 }
