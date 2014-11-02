@@ -1,3 +1,22 @@
+$(document).ready(function(){
+	// Initialize tracked friends
+	chrome.storage.local.trackedFriends = {};
+	
+	$("#tags").keypress(function(e) {
+		if(e.which == 13) {
+			grab_user();
+		}
+	});
+	
+	$("#addFriend").click(function() {
+		grab_trackedFriend();
+	});
+	
+	$("#removeFriend").click(function() {
+		relese_trackedFriend();
+	});
+});
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.method == "setLocalStorage"){
 		chrome.storage.local.users = request.data;
@@ -10,9 +29,117 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 			source: users
 		});
 		
+		$("#yo_user").autocomplete({
+			source: users
+		});
+		
 	}
 });
 
+function makeDataSeries(dataPoints){
+	var dataSeries = [];
+	
+	var i, j;
+	for (i = 0; i < 7; ++i){
+		for (j = 0; j < 24; ++j){
+			dataSeries.push([j, i, dataPoints[i][j]]);
+		}
+	}
+	
+	return dataSeries;
+}
+
+function unhash_users(){
+  var names = [];
+  var users = chrome.storage.local.users;
+  for (u in users){
+      names.push(users[u].name);
+  }
+  return names;
+}
+
+function grab_trackedFriend(){
+	var name = $("#tags").val();
+	
+	if (name == "Randomaldo Falso"){
+		var friend = generate_dataset();
+	}
+	else{
+		var hash = Math.abs(name.hashCode()).toString(16);
+		var friend = chrome.storage.local.users[hash];
+	}
+	
+	chrome.storage.local.trackedFriends[hash] = friend.name;
+	
+	//~console.log(hash, friend);
+	console.log(chrome.storage.local.trackedFriends);
+	return;
+}
+
+function release_trackedFriend(){
+	var name = $("#tags").val();
+	
+	if (name == "Randomaldo Falso"){
+		var friend = generate_dataset();
+	}
+	else{
+		var hash = Math.abs(name.hashCode()).toString(16);
+		var friend = chrome.storage.local.users[hash];
+	}
+	
+	chrome.storage.local.trackedFriends[hash] = friend.name;
+	
+	//~console.log(hash, friend);
+	console.log(chrome.storage.local.trackedFriends);
+	return;
+}
+
+function grab_user(){
+	var name = $("#tags").val();
+	
+	if (name == "Randomaldo Falso"){
+		var friend = generate_dataset();
+	}
+	else{
+		var hash = Math.abs(name.hashCode()).toString(16);
+		var friend = chrome.storage.local.users[hash];
+	}
+	
+	drawGraph(friend);
+	return;
+}
+
+//generates random dataset
+function generate_dataset(name){
+    var day = []; //size 7
+    var name = "Randomaldo Falso";
+    
+    for (j = 0; j < 7; j++) {
+        var hour = []; //size 24
+        for (q = 0; q < 24; q ++) {
+            hour.push(Math.floor((Math.random() * 10)));
+        }
+        day.push(hour);
+    }
+    
+    for (j = 17; j < 24; j++){
+		day[5][j] += Math.floor((Math.random() * 50));
+		day[6][j] += Math.floor((Math.random() * 50));
+	}
+	
+	for (i = 1; i < 5; i++){
+		for (j = 9; j < 15; j++){
+			day[i][j] += Math.floor((Math.random() * 20));
+		}
+	}
+    
+    var friend = {
+        dataPoints: day,
+        name: name
+    };
+    
+    return friend;
+}
 
 function drawGraph(friend){
 	 options = {
@@ -85,76 +212,6 @@ function drawGraph(friend){
 	$('#container').highcharts(options);
 } 
 
-function makeDataSeries(dataPoints){
-	var dataSeries = [];
-	
-	var i, j;
-	for (i = 0; i < 7; ++i){
-		for (j = 0; j < 24; ++j){
-			dataSeries.push([j, i, dataPoints[i][j]]);
-		}
-	}
-	
-	return dataSeries;
-}
-
-function unhash_users(){
-  var names = [];
-  var users = chrome.storage.local.users;
-  for (u in users){
-      names.push(users[u].name);
-  }
-  return names;
-}
-
-function grab_user(){
-	var name = $("#tags").val();
-	
-	if (name == "Randomaldo Falso"){
-		var friend = generate_dataset();
-		console.log(friend);
-	}
-	else{
-		var hash = Math.abs(name.hashCode()).toString(16);
-		var friend = chrome.storage.local.users[hash];
-	}
-	
-	drawGraph(friend);
-	return;
-}
-
-//generates random dataset
-function generate_dataset(name){
-    var day = []; //size 7
-    var name = "Randomaldo Falso";
-    
-    for (j = 0; j < 7; j++) {
-        var hour = []; //size 24
-        for (q = 0; q < 24; q ++) {
-            hour.push(Math.floor((Math.random() * 10)));
-        }
-        day.push(hour);
-    }
-    
-    for (j = 17; j < 24; j++){
-		day[5][j] += Math.floor((Math.random() * 50));
-		day[6][j] += Math.floor((Math.random() * 50));
-	}
-	
-	for (i = 1; i < 5; i++){
-		for (j = 9; j < 15; j++){
-			day[i][j] += Math.floor((Math.random() * 20));
-		}
-	}
-    
-    var friend = {
-        dataPoints: day,
-        name: name
-    };
-    
-    return friend;
-}
-
 String.prototype.hashCode = function() {
   var hash = 0, i, chr, len;
   if (this.length == 0) return hash;
@@ -165,17 +222,6 @@ String.prototype.hashCode = function() {
   }
   return hash;
 };
-
-$(document).ready(function(){
-	$("#tags").keypress(function(e) {
-		if(e.which == 13) {
-			grab_user();
-		}
-	});
-});
-
-
-
 
 
 
