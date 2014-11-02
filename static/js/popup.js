@@ -4,7 +4,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		sendResponse({});
 		//~console.log("Data received:", chrome.storage.local.users);
 		
-		var friend = chrome.storage.local.users["5dd3d67b"]
+		var friend = chrome.storage.local.users["5dd3d67b"];
 		
 		// Update data
 		console.log(friend.name);
