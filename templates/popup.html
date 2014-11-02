@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Klats</title>
+    <link href='http://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
      <link rel="stylesheet" href="../static/css/bootstrap.css">
      <link rel="stylesheet" href="../static/css/jquery-ui.css">
      <link rel="stylesheet" href="../static/css/main.css">
@@ -26,7 +27,7 @@
 </div> -->
 
     <div id="friendsearch" class="ui-widget" align="center">
-      <input id="tags">
+      <input id="tags" placeholder="Search for people">
     </div>
 
   <div id="wrapper">
@@ -37,8 +38,12 @@
     </div>
     
     <div id="usernameinput" class="ui-widget" align="center">
-        <input id="yo_user">
-    </div><br>
+        <input id="yo_user" placeholder="Yo username">
+    </div>
+    <div id ="yotestblock" align="center">
+      <button type="button" id="yo-button" class="btn btn-default">Yo Test</button>
+    </div>
+    <br>
   </div>
   
   <div id = "wrapper">
@@ -46,8 +51,6 @@
     <button id="removeFriend" class="btn btn-info" type="button"> <span class="glyphicon glyphicon-minus"></span> </button>
   </div>
   
-  <div id="container"></div>
-
   <div id="container"></div>
 
   </body>

@@ -1,6 +1,6 @@
 body {
   background: #7AFF5A;
-  font-family: arial;
+  font-family: 'Indie Flower', cursive;
 	min-width: 600px;
 	min-height: 500px;
 	overflow-x: hidden;
@@ -39,4 +39,16 @@ img {
      /*background: #ccc;*/
      display: inline-block;    
      padding: 5px;   
+}
+
+#yo-button {
+  margin-top: 20px;
+  font-size: 1em;
+  color: #5abeec;
+  border: 0;
+}
+
+#yo-button:hover {
+  background-color: #5abeec;
+  color: white;
 }
