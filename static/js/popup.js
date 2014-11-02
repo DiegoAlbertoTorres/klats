@@ -1,47 +1,66 @@
-// Load Facebook SDK
-alert('Hi');
-window.fbAsyncInit = function() {
-	FB.init({
-		appId      : '1523140154592681', // You must replace this
-		xfbml      : true,
-		version    : 'v2.1'
-	});
-	alert('Hi');
-};
+$(function () {
+ $('#container').highcharts({
 
-(function (d, s, id){
-	alert('hi2');
-	var js, fjs = d.getElementsByTagName(s)[0];
-	if (d.getElementById(id)) {return;}
-	js = d.createElement(s); js.id = id;
-	js.src = "https://connect.facebook.net/en_US/sdk.js";
-	fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-// End of Facebook SDK load
+        data: {
+            csv: document.getElementById('csv').innerHTML
+        },
 
-// Request facebook chat list
-(function () {
-	alert('asdf');
-	FB.getLoginStatus(function(response) {
-		if (response.status === 'connected') {
-			// the user is logged in and has authenticated your
-			// app, and response.authResponse supplies
-			// the user's ID, a valid access token, a signed
-			// request, and the time the access token 
-			// and signed request each expire
-			var uid = response.authResponse.userID;
-			var accessToken = response.authResponse.accessToken;
-			console.log("logged in!");
-		}
-		else if (response.status === 'not_authorized') {
-			// the user is logged in to Facebook, 
-			// but has not authenticated your app
-			console.log("not logged in!");
-		} 
-		else {
-			console.log('not logged');
-			// the user isn't logged in to Facebook.
-		}
+        chart: {
+            type: 'heatmap',
+            inverted: true
+        },
+
+
+        title: {
+            text: 'Highcharts heat map study',
+            align: 'left'
+        },
+
+        subtitle: {
+            text: 'Temperature variation by day and hour through April 2013',
+            align: 'left'
+        },
+
+        xAxis: {
+            tickPixelInterval: 50,
+            min: Date.UTC(2013, 3, 1),
+            max: Date.UTC(2013, 3, 30)
+        },
+
+        yAxis: {
+            title: {
+                text: null
+            },
+            labels: {
+                format: '{value}:00'
+            },
+            minPadding: 0,
+            maxPadding: 0,
+            startOnTick: false,
+            endOnTick: false,
+            tickPositions: [0, 6, 12, 18, 24],
+            tickWidth: 1,
+            min: 0,
+            max: 23
+        },
+
+        colorAxis: {
+            stops: [
+                [0, '#3060cf'],
+                [0.5, '#fffbbc'],
+                [0.9, '#c4463a']
+            ],
+            min: -5
+        },
+
+        series: [{
+            borderWidth: 0,
+            colsize: 24 * 36e5, // one day
+            tooltip: {
+                headerFormat: 'Temperature<br/>',
+                pointFormat: '{point.x:%e %b, %Y} {point.y}:00: <b>{point.value} ℃</b>'
+            }
+        }]
+
 	});
 });
-
