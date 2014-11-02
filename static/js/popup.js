@@ -219,6 +219,7 @@ String.prototype.hashCode = function() {
   return hash;
 };
 
+$('#dimension-switch').bootstrapSwitch('setSizeClass', '');
 
 
 

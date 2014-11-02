@@ -15,7 +15,7 @@
 
   </head>
   <body>
-    <h1> Klats </h1>
+    <h1 align="center">Triends</h1>
 <!-- <div class="btn-group" data-toggle="buttons">
   <label class="btn btn-primary active">
     <input type="radio" name="options" id="option1" autocomplete="off" checked> Radio 1 (preselected)
@@ -24,22 +24,28 @@
     <input type="radio" name="options" id="option2" autocomplete="off"> Radio 2
   </label>
 </div> -->
-    <div class="ui-widget">
-      <label for="tags">Tags: </label>
-      <input id="tags">
-    </div><br>
 
-    <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-id-switch-state bootstrap-switch-on bootstrap-switch-focused bootstrap-switch-animate">
-      <div class="bootstrap-switch-container" style="">
-        <span class="bootstrap-switch-handle-on bootstrap-switch-primary">ON</span>
-        <label class="bootstrap-switch-label">&nbsp;</label>
-        <span class="bootstrap-switch-handle-off bootstrap-switch-default">OFF</span>
-        <input id="switch-state" type="checkbox" checked="">
-      </div>
+    <div id="friendsearch" class="ui-widget" align="center">
+      <input id="tags">
     </div>
-    <div id="container"></div>
+
+  <div id="wrapper">
     
+    <div id="yoToggle" class="btn-group">
+      <button type="button" class="btn btn-default">On</button>
+      <button type="button" class="btn btn-default">Off</button>
+    </div>
     
+    <div id="usernameinput" class="ui-widget" align="center">
+        <input id="yo_user">
+    </div><br>
+  </div>
+  
+  <div id = "wrapper">
+    <button class="btn btn-info" type="button"> <span class="glyphicon glyphicon-plus"></span> </button>
+    <button class="btn btn-info" type="button"> <span class="glyphicon glyphicon-minus"></span> </button>
+  </div>
+
   </body>
 </html>
 

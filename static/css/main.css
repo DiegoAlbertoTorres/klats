@@ -1,7 +1,7 @@
 body {
   background: #7AFF5A;
   font-family: arial;
-	min-width: 357px;
+	min-width: 600px;
 	min-height: 500px;
 	overflow-x: hidden;
 }
@@ -23,3 +23,21 @@ img {
 * html .ui-autocomplete {
   height: 200px;
 }
+
+#friendsearch > input{
+	width: 295px;
+}
+
+#wrapper {
+    /*background: #e7e7e7;*/
+    padding: 5px;
+    text-align: center;
+    width: 600px;  
+}
+
+#yoToggle, #usernameinput {
+     /*background: #ccc;*/
+     display: inline-block;    
+     padding: 5px;   
+}
+
