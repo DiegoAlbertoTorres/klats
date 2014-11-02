@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "Triends",
-  "description": "Triends is a Chrome extension which tracks your friends' Facebook usage patterns, generates a relevant Heat Map, and notifies you via 'YO' when specified friends log on.",
+  "description": "Triends is a Chrome extension which tracks your friends' Facebook usage patterns and generates a relevant Heat map",
   "version": "1.0",
   
   "background": {
