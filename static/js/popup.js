@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	// Initialize tracked friends
+	chrome.storage.local.users = {};
 	chrome.storage.local.trackedFriends = {};
 	
 	$("#tags").keypress(function(e) {
@@ -13,28 +14,45 @@ $(document).ready(function(){
 	});
 	
 	$("#removeFriend").click(function() {
-		relese_trackedFriend();
+		release_trackedFriend();
 	});
 });
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+	// Receive list of online users and their weight
     if (request.method == "setLocalStorage"){
+		// Store message
 		chrome.storage.local.users = request.data;
+		
+		// Reply
 		sendResponse({});
 		
+		// Add to the search dropdown
 		var users = unhash_users();
 		users.push("Randomaldo Falso");
-		//~console.log(generate_dataset());
 		$("#tags").autocomplete({
 			source: users
 		});
 		
-		$("#yo_user").autocomplete({
-			source: users
-		});
-		
+		// See if anyone tracked got online
+		checkTracked(request.data);
+	}
+	if (request.method == "getLocalStorage"){
+		// Reply
+		sendResponse({data: chrome.storage.local.users});
 	}
 });
+
+function checkTracked(onlineFriends){
+	console.log(onlineFriends);
+	var trackedFriends = chrome.storage.local.trackedFriends;
+	
+	// For each tracked friend
+	for (i in trackedFriends){
+		if (onlineFriends[i] !== undefined)
+			console.log("he is online!");
+	}
+}
 
 function makeDataSeries(dataPoints){
 	var dataSeries = [];
@@ -58,6 +76,14 @@ function unhash_users(){
   return names;
 }
 
+function user_hashes(users){
+  var hashes = [];
+  for (u in users){
+      hashes.push(u);
+  }
+  return hashes;
+}
+
 function grab_trackedFriend(){
 	var name = $("#tags").val();
 	
@@ -69,7 +95,10 @@ function grab_trackedFriend(){
 		var friend = chrome.storage.local.users[hash];
 	}
 	
-	chrome.storage.local.trackedFriends[hash] = friend.name;
+	chrome.storage.local.trackedFriends[hash] = {
+		name: friend.name,
+		online: false
+	};
 	
 	//~console.log(hash, friend);
 	console.log(chrome.storage.local.trackedFriends);
@@ -79,15 +108,9 @@ function grab_trackedFriend(){
 function release_trackedFriend(){
 	var name = $("#tags").val();
 	
-	if (name == "Randomaldo Falso"){
-		var friend = generate_dataset();
-	}
-	else{
-		var hash = Math.abs(name.hashCode()).toString(16);
-		var friend = chrome.storage.local.users[hash];
-	}
+	var hash = Math.abs(name.hashCode()).toString(16);
 	
-	chrome.storage.local.trackedFriends[hash] = friend.name;
+	delete chrome.storage.local.trackedFriends[hash]
 	
 	//~console.log(hash, friend);
 	console.log(chrome.storage.local.trackedFriends);

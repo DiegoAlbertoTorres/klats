@@ -9,21 +9,17 @@ String.prototype.hashCode = function() {
   return hash;
 };
 
+var users;
+
 window.onload = function() {
-	//~chrome.storage.local.users = {};
-	if (chrome.storage.local.users === undefined)
-		chrome.storage.local.users = {};
-		
-	//~chrome.storage.local.users=	{};
-	//~console.log("Clear!");
-		
-	setInterval(scrape, 1000);
+	chrome.runtime.sendMessage({method: "getLocalStorage"}, function(response) {
+		users = response.data;
+		setInterval(scrape, 1000);
+	});
 };
 
 function scrape(){
 	var d = new Date();
-	
-	var users = chrome.storage.local.users;
 	
 	$("._42fz").each(function(){
 		var user = {};
@@ -37,7 +33,6 @@ function scrape(){
 		
 		// Data is an array of arrays. Each element has form: [Hour, day, value]
 		if (users[hash] === undefined){
-			
 			var dataPoints = new Array(7);
 			for (var i = 0; i < 7; i++) {
 				dataPoints[i] = Array.apply(null, new Array(24)).map(Number.prototype.valueOf,0);
@@ -46,7 +41,7 @@ function scrape(){
 			
 			// Push first data point to user
 			var status = $(this).find("div._5t35").html();
-			var value;
+			var value = 0;
 			if (status == "Web"){
 				value = 2;
 			}
@@ -58,11 +53,12 @@ function scrape(){
 			
 			// Push new user to user database
 			users[hash] = user;
+			
 		}
 		// Already in database
 		else{
 			var status = $(this).find("div._5t35").html();
-			var value;
+			var value = 0;
 			if (status == "Web"){
 				value = 2;
 			}
